@@ -26,7 +26,7 @@ function handleMovement() {
   }
 }
 
-export const initMovement = () => {
+export const initHeroMovement = () => {
   // set keydown state
   window.addEventListener('keydown', (event: KeyboardEvent) => {
     keys[event.key.toLowerCase()] = true
@@ -45,6 +45,6 @@ export const initMovement = () => {
   requestAnimationFrame(loop)
 }
 
-export function getPosition(): number[]{
-  return [position.x, position.y]
+export function getHeroPosition(): Coordinates{
+  return {x: position.x, y: position.y}
 }

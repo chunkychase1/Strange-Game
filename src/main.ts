@@ -1,5 +1,5 @@
 import { initCanvas, resizeCanvas } from './canvas'
-import { centerCircle, initMovement } from './hero-movement'
+import { centerCircle, initHeroMovement } from './hero-movement'
 import { resetScore, setupScore } from './scoreboard'
 import './style.css'
 
@@ -26,7 +26,7 @@ const handleResize = () => {
 
 window.addEventListener('resize', handleResize)
 handleResize()
-initMovement()
+initHeroMovement()
 
 //scoreboard setup
 const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')! 
