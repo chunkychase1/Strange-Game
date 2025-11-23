@@ -30,7 +30,7 @@ export function handleEnemyMovement() {
 
 //spawn enemy
 export const spawnEnemy = (width: number, height: number) => {
-  enemyPosition.x = width / 
+  enemyPosition.x = width / 3;
   enemyPosition.y = height / 3 //spawn position for enemy
 }
 
