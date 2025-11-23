@@ -2,7 +2,7 @@ import type { Coordinates } from './canvas'
 import { getHeroPosition } from './hero-movement'
 import { drawEnemy } from './enemy'
 
-const step = 6
+const step = 4
 const enemyPosition: Coordinates = { x: 0, y: 0 } //FIX THIS SHIT
 
 //enemy infinite tracking to player
@@ -10,12 +10,12 @@ let touching = false
 export function handleEnemyMovement () {
     if (touching == false) {
         const heroPosition = getHeroPosition()
-        if (Math.abs(heroPosition.x-enemyPosition.x) > Math.abs(heroPosition.y-enemyPosition.y)){
-            enemyPosition.x += step
-        }
-        else if (Math.abs(heroPosition.x-enemyPosition.x) < Math.abs(heroPosition.y-enemyPosition.y)){
-            enemyPosition.y += step
-        }
+
+        if (heroPosition.x-enemyPosition.x > 0){enemyPosition.x += step}
+        else if (heroPosition.x-enemyPosition.x < 0){enemyPosition.x -= step}
+
+        if (heroPosition.y-enemyPosition.y > 0){enemyPosition.y += step}
+        else if (heroPosition.y-enemyPosition.y < 0){enemyPosition.y -= step}
 
     }
     drawEnemy({x: enemyPosition.x, y: enemyPosition.y})
