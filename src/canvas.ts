@@ -1,8 +1,8 @@
 export type Coordinates = { x: number; y: number }
 
-let canvas: HTMLCanvasElement
-let ctx: CanvasRenderingContext2D | null
-const radius = 10
+export let canvas: HTMLCanvasElement
+export let ctx: CanvasRenderingContext2D | null
+export const radius = 10
 
 export const initCanvas = (el: HTMLCanvasElement) => {
   canvas = el
@@ -18,12 +18,3 @@ export const resizeCanvas = () => {
   canvas.height = window.innerHeight
 }
 
-export const drawCircle = (position: Coordinates) => {
-  if (!ctx || !canvas) return
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = '#ffffff'
-  ctx.beginPath()
-  ctx.arc(position.x, position.y, radius, 0, Math.PI * 2)
-  ctx.fill()
-}

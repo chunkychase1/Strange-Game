@@ -1,4 +1,5 @@
-import { drawCircle, type Coordinates } from './canvas'
+import type { Coordinates } from './canvas'
+import { drawCircle } from './hero'
 import { addScore } from './scoreboard'
 
 const step = 5
@@ -15,24 +16,10 @@ const keys: Record<string, boolean> = {}
 // move based on currently held keys
 function handleMovement() {
   let moved = false
-
-  if (keys['w']) {
-    position.y -= step
-    moved = true
-  }
-  if (keys['a']) {
-    position.x -= step
-    moved = true
-  }
-  if (keys['s']) {
-    position.y += step
-    moved = true
-  }
-  if (keys['d']) {
-    position.x += step
-    moved = true
-  }
-
+  if (keys['w']) {position.y -= step; moved = true}
+  if (keys['a']) {position.x -= step; moved = true}
+  if (keys['s']) {position.y += step; moved = true}
+  if (keys['d']) {position.x += step; moved = true}
   if (moved) {
     addScore(1)
     drawCircle(position)
