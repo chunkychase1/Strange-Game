@@ -10,6 +10,7 @@ export const centerCircle = (width: number, height: number) => {
   drawCircle(position)
 }
 
+//mapping wasd to movement
 const handleKeydown = (event: KeyboardEvent) => {
   switch (event.key.toLowerCase()) {
     case 'w':
@@ -30,6 +31,7 @@ const handleKeydown = (event: KeyboardEvent) => {
 
   drawCircle(position)
 }
+
 
 export const initMovement = () => {
   window.addEventListener('keydown', handleKeydown)

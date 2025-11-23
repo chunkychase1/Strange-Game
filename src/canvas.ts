@@ -1,32 +1,25 @@
-import './style.css'
+export type Coordinates = { x: number; y: number }
 
-const app = document.querySelector<HTMLDivElement>('#app')
-if (!app) throw new Error('App root (#app) not found')
+let canvas: HTMLCanvasElement
+let ctx: CanvasRenderingContext2D | null
+const radius = 10
 
-app.innerHTML = `
-  <div class="canvas-wrapper">
-    <canvas id="drawing-canvas"></canvas>
-  </div>
-`
-
-const canvas = document.querySelector<HTMLCanvasElement>('#drawing-canvas')
-if (!canvas) throw new Error('Drawing canvas (#drawing-canvas) missing')
-
-const ctx = canvas.getContext('2d')
-const radius = 40
-
-export type Coordinates = {
-  x: number
-  y: number
+export const initCanvas = (el: HTMLCanvasElement) => {
+  canvas = el
+  ctx = canvas.getContext('2d')
+  if (!ctx) {
+    throw new Error('Could not get 2D context')
+  }
 }
 
 export const resizeCanvas = () => {
+  if (!canvas) return
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
 }
 
 export const drawCircle = (position: Coordinates) => {
-  if (!ctx) return
+  if (!ctx || !canvas) return
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#ffffff'
