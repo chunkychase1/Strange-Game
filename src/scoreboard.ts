@@ -9,10 +9,23 @@ let scoreElement: HTMLDivElement | null = null
 export function addScore (addAmount: number): void{
     try {
         score += addAmount
-        if (scoreElement) {
-            scoreElement.innerHTML = score.toString() //updates scoreboard
-        }
+        updateScore()
     } catch (error) {
         console.log(`score add error : ${error}`)
     }
+}
+
+//reset scoreboard button
+export function resetScore (element: HTMLButtonElement): void{
+    element.addEventListener('click', () => {
+        score=0
+        updateScore()
+})
+}
+
+//updates score helper function
+function updateScore () {
+    if (scoreElement) {
+    scoreElement.innerHTML = score.toString() //updates scoreboard
+}
 }
