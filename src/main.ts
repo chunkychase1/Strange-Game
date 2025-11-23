@@ -1,12 +1,13 @@
 import { initCanvas, resizeCanvas } from './canvas'
 import { centerCircle, initMovement } from './movement'
+import { setupScore } from './scoreboard'
 import './style.css'
 
 const app = document.querySelector<HTMLDivElement>('#app')
 if (!app) throw new Error('App root (#app) not found')
 
 app.innerHTML = `
-  <div id="score"></div>
+  <div id="scoreboard"></div>
   <div class="canvas-wrapper">
     <canvas id="drawing-canvas"></canvas>
   </div>
@@ -25,3 +26,5 @@ const handleResize = () => {
 window.addEventListener('resize', handleResize)
 handleResize()
 initMovement()
+
+setupScore(document.querySelector<HTMLDivElement>('#scoreboard')!)
