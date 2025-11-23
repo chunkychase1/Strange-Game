@@ -1,4 +1,5 @@
 import { drawCircle, type Coordinates } from './canvas'
+import { addScore } from './scoreboard'
 
 const step = 25
 const position: Coordinates = { x: 0, y: 0 }
@@ -28,10 +29,9 @@ const handleKeydown = (event: KeyboardEvent) => {
     default:
       return
   }
-
+  addScore(1)//adds 1 score per movement
   drawCircle(position)
 }
-
 
 export const initMovement = () => {
   window.addEventListener('keydown', handleKeydown)

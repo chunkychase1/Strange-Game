@@ -28,3 +28,7 @@ handleResize()
 initMovement()
 
 setupScore(document.querySelector<HTMLDivElement>('#scoreboard')!)
+
+const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')!
+setupScore(scoreDiv)
+
