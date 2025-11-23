@@ -1,5 +1,5 @@
 import { initCanvas, resizeCanvas } from './canvas'
-import { centerCircle, initMovement } from './movement'
+import { centerCircle, initMovement } from './hero-movement'
 import { resetScore, setupScore } from './scoreboard'
 import './style.css'
 

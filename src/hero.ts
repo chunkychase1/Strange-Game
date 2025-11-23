@@ -1,6 +1,6 @@
 import { ctx, canvas, radius, type Coordinates} from "./canvas"
 
-export const drawCircle = (position: Coordinates) => {
+export const drawHero = (position: Coordinates) => {
   if (!ctx || !canvas) return
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)

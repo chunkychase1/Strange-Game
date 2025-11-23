@@ -1,5 +1,5 @@
 import type { Coordinates } from './canvas'
-import { drawCircle } from './hero'
+import { drawHero } from './hero'
 import { addScore } from './scoreboard'
 
 const step = 5
@@ -8,7 +8,7 @@ const position: Coordinates = { x: 0, y: 0 }
 export const centerCircle = (width: number, height: number) => {
   position.x = width / 2
   position.y = height / 2
-  drawCircle(position)
+  drawHero(position)
 }
 
 const keys: Record<string, boolean> = {}
@@ -22,7 +22,7 @@ function handleMovement() {
   if (keys['d']) {position.x += step; moved = true}
   if (moved) {
     addScore(1)
-    drawCircle(position)
+    drawHero(position)
   }
 }
 
@@ -43,4 +43,8 @@ export const initMovement = () => {
   }
 
   requestAnimationFrame(loop)
+}
+
+export function getPosition(): number[]{
+  return [position.x, position.y]
 }
