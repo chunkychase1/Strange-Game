@@ -3,27 +3,34 @@ import { getHeroPosition } from './hero-movement'
 import { drawEnemy } from './enemy'
 
 const step = 4
-const enemyPosition: Coordinates = { x: 0, y: 0 } //FIX THIS SHIT
+const enemyPosition: Coordinates = { x: 0, y: 0 }
+let touching = false
 
-//enemy infinite tracking to player
-let touching = false 
-export function handleEnemyMovement () {
-    if (touching == false) {
-        const heroPosition = getHeroPosition()
+export function handleEnemyMovement() {
+  if (!touching) {
+    const heroPosition = getHeroPosition()
 
-        if (heroPosition.x-enemyPosition.x > 0){enemyPosition.x += step}
-        else if (heroPosition.x-enemyPosition.x < 0){enemyPosition.x -= step}
+    const distanceX = heroPosition.x - enemyPosition.x
+    const distanceY = heroPosition.y - enemyPosition.y
 
-        if (heroPosition.y-enemyPosition.y > 0){enemyPosition.y += step}
-        else if (heroPosition.y-enemyPosition.y < 0){enemyPosition.y -= step}
+    // move on X
+    if (Math.abs(distanceX) <= step) {enemyPosition.x += distanceX}
+    else {enemyPosition.x += Math.sign(distanceX) * step}  // move step toward hero
 
-    }
-    drawEnemy({x: enemyPosition.x, y: enemyPosition.y})
+    // move on Y
+    if (Math.abs(distanceY) <= step) {enemyPosition.y += distanceY}
+    else {enemyPosition.y += Math.sign(distanceY) * step}
+
+    // mark as touching when very close
+    if (Math.abs(distanceX) <= step && Math.abs(distanceY) <= step) {touching = true}
+  }
+
+  drawEnemy(enemyPosition)
 }
 
 //spawn enemy
 export const spawnEnemy = (width: number, height: number) => {
-  enemyPosition.x = width / 3
+  enemyPosition.x = width / 
   enemyPosition.y = height / 3 //spawn position for enemy
 }
 
