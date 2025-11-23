@@ -3,7 +3,6 @@ import { ctx, canvas, radius, type Coordinates} from "./canvas"
 export const drawEnemy = (position: Coordinates) => {
   if (!ctx || !canvas) return
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#d81414ff'
   ctx.beginPath()
   ctx.arc(position.x, position.y, radius, 0, Math.PI * 2)

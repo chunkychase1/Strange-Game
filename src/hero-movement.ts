@@ -2,28 +2,29 @@ import type { Coordinates } from './canvas'
 import { drawHero } from './hero'
 import { addScore } from './scoreboard'
 
-const step = 5
-const position: Coordinates = { x: 0, y: 0 }
+const heroStep = 5
+const heroPosition: Coordinates = { x: 0, y: 0 }
 
-export const centerCircle = (width: number, height: number) => {
-  position.x = width / 2
-  position.y = height / 2
-  drawHero(position)
+//this spawns the hero
+export const spawnHero = (width: number, height: number) => {
+  heroPosition.x = width / 2
+  heroPosition.y = height / 2
+  drawHero(heroPosition)
 }
 
 const keys: Record<string, boolean> = {}
 
 // move based on currently held keys
-function handleMovement() {
-  let moved = false
-  if (keys['w']) {position.y -= step; moved = true}
-  if (keys['a']) {position.x -= step; moved = true}
-  if (keys['s']) {position.y += step; moved = true}
-  if (keys['d']) {position.x += step; moved = true}
-  if (moved) {
+export function handleHeroMovement() {
+  let heroMoved = false
+  if (keys['w']) {heroPosition.y -= heroStep; heroMoved = true}
+  if (keys['a']) {heroPosition.x -= heroStep; heroMoved = true}
+  if (keys['s']) {heroPosition.y += heroStep; heroMoved = true}
+  if (keys['d']) {heroPosition.x += heroStep; heroMoved = true}
+  if (heroMoved) {
     addScore(1)
-    drawHero(position)
   }
+  drawHero(heroPosition)
 }
 
 export const initHeroMovement = () => {
@@ -36,15 +37,9 @@ export const initHeroMovement = () => {
     keys[event.key.toLowerCase()] = false
   })
 
-  // game loop
-  const loop = () => {
-    handleMovement()
-    requestAnimationFrame(loop)
-  }
-
-  requestAnimationFrame(loop)
 }
 
+//gets hero position
 export function getHeroPosition(): Coordinates{
-  return {x: position.x, y: position.y}
+  return {x: heroPosition.x, y: heroPosition.y}
 }

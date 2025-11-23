@@ -18,3 +18,7 @@ export const resizeCanvas = () => {
   canvas.height = window.innerHeight
 }
 
+export const clearCanvas = () => {
+  if (!ctx || !canvas) return
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+}

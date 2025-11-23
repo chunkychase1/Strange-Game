@@ -1,6 +1,7 @@
-import { initCanvas, resizeCanvas } from './canvas'
-import { centerCircle, initHeroMovement } from './hero-movement'
+import { initCanvas, resizeCanvas, ctx } from './canvas'
+import { spawnHero, initHeroMovement, handleHeroMovement } from './hero-movement'
 import { resetScore, setupScore } from './scoreboard'
+import { handleEnemyMovement, spawnEnemy } from './enemy-movement'
 import './style.css'
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -21,12 +22,14 @@ initCanvas(canvas)
 
 const handleResize = () => {
   resizeCanvas()
-  centerCircle(window.innerWidth, window.innerHeight)
+  spawnHero(window.innerWidth, window.innerHeight)
+  spawnEnemy(window.innerWidth, window.innerHeight)//spawns enemy
 }
 
 window.addEventListener('resize', handleResize)
 handleResize()
-initHeroMovement()
+initHeroMovement()//spawns hero and starts its movement logic
+
 
 //scoreboard setup
 const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')! 
@@ -35,4 +38,16 @@ setupScore(scoreDiv)
 //reset button
 const resetDiv = document.querySelector<HTMLButtonElement>('#reset-button')!
 resetScore(resetDiv)
+
+// game loop, it will clear the canvas and then move both hero and enemy then loop
+const loop = () => {
+  if (!ctx || !canvas) return
+  ctx.clearRect(0, 0, canvas.width, canvas.height) //clear canvas
+
+  handleHeroMovement()//redraw hero and enemy (with updated places if)
+  handleEnemyMovement()
+
+  requestAnimationFrame(loop)
+}
+requestAnimationFrame(loop)
 
