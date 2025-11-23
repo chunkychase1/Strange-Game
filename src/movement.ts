@@ -1,38 +1,59 @@
 import { drawCircle, type Coordinates } from './canvas'
 import { addScore } from './scoreboard'
 
-const step = 25
+const step = 5
 const position: Coordinates = { x: 0, y: 0 }
 
 export const centerCircle = (width: number, height: number) => {
   position.x = width / 2
   position.y = height / 2
-
   drawCircle(position)
 }
 
-//mapping wasd to movement
-const handleKeydown = (event: KeyboardEvent) => {
-  switch (event.key.toLowerCase()) {
-    case 'w':
-      position.y -= step
-      break
-    case 's':
-      position.y += step
-      break
-    case 'a':
-      position.x -= step
-      break
-    case 'd':
-      position.x += step
-      break
-    default:
-      return
+const keys: Record<string, boolean> = {}
+
+// move based on currently held keys
+function handleMovement() {
+  let moved = false
+
+  if (keys['w']) {
+    position.y -= step
+    moved = true
   }
-  addScore(1)//adds 1 score per movement
-  drawCircle(position)
+  if (keys['a']) {
+    position.x -= step
+    moved = true
+  }
+  if (keys['s']) {
+    position.y += step
+    moved = true
+  }
+  if (keys['d']) {
+    position.x += step
+    moved = true
+  }
+
+  if (moved) {
+    addScore(1)
+    drawCircle(position)
+  }
 }
 
 export const initMovement = () => {
-  window.addEventListener('keydown', handleKeydown)
+  // set keydown state
+  window.addEventListener('keydown', (event: KeyboardEvent) => {
+    keys[event.key.toLowerCase()] = true
+  })
+  //set keyup state
+  window.addEventListener('keyup', (event: KeyboardEvent) => {
+    keys[event.key.toLowerCase()] = false
+  })
+
+  // game loop
+  const loop = () => {
+    handleMovement()
+    requestAnimationFrame(loop)
+  }
+
+  requestAnimationFrame(loop)
 }
