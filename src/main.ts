@@ -1,7 +1,7 @@
 import { initCanvas, resizeCanvas, ctx } from './canvas'
 import { spawnHero, initHeroMovement, handleHeroMovement } from './hero-movement'
 import { resetScore, setupScore } from './scoreboard'
-import { spawnRandomEnemy, updateEnemies } from './enemy'
+import { endGame, spawnRandomEnemy, updateEnemies } from './enemy'
 import './style.css'
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -41,13 +41,13 @@ resetScore(resetDiv)
 
 // game loop, it will clear the canvas and then move both hero and enemy then loop
 const loop = () => {
-  if (!ctx || !canvas) return
+  if (!ctx || !canvas && !endGame) return
   ctx.clearRect(0, 0, canvas.width, canvas.height) //clear canvas
 
   handleHeroMovement()//redraw hero and enemy (with updated places if)
   updateEnemies()
-
-  requestAnimationFrame(loop)
+  spawnRandomEnemy()
+  if (!endGame) {requestAnimationFrame(loop)}
 }
 requestAnimationFrame(loop)
 

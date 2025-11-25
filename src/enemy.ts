@@ -1,7 +1,8 @@
-import { ctx, canvas} from "./canvas"
+import { ctx, canvas, type Coordinates} from "./canvas"
 import { getHeroPosition } from "./hero-movement"
 
 const globalEnemiesList: Enemy[] = []//list of all alive enemys
+export let endGame = false
 
 export class Enemy{
     x: number
@@ -26,11 +27,6 @@ export class Enemy{
         ctx.fill()
     }
 
-    spawnEnemy(width: number, height: number) {
-        this.x = width / 3;
-        this.y = height / 3 //spawn position for enemy
-    }
-
     handleEnemyMovement() {
         if (!this.touching) {
 
@@ -50,6 +46,7 @@ export class Enemy{
             // mark as touching when very close
             if (Math.abs(distanceX) <= this.stepLength && Math.abs(distanceY) <= this.stepLength) {this.touching = true}
         }
+        else{endGame = true} //end game if touching
 
         this.drawEnemy()
     }
@@ -64,5 +61,33 @@ export function updateEnemies(){
     for (const enemy of globalEnemiesList) {
         enemy.handleEnemyMovement()
     }
+}
+
+export function findClosestEnemy(){
+    let closest: Coordinates | undefined = undefined //{x: number, y: number}
+    let closestIndex: number = 0
+    let currentIndex: number = 0
+    let closestTotal: number = 0
+
+    function updateValues(x: number, y: number, absoluteDifferenceXY: number){ //helper function for updating values including index, closest, etc
+        closest = {x:x, y:y}
+        currentIndex += 1
+        closestTotal = absoluteDifferenceXY
+    }
+
+    const heroPosition = getHeroPosition()
+    for (const enemy of globalEnemiesList){
+
+        const absoluteDifferenceXY: number = Math.abs(heroPosition.x-enemy.x)+Math.abs(heroPosition.y-enemy.y)
+
+        if (!closestIndex){
+            updateValues(enemy.x, enemy.y, absoluteDifferenceXY)
+            continue
+        }
+        if (closestTotal<absoluteDifferenceXY) {
+            updateValues(enemy.x, enemy.y, absoluteDifferenceXY)
+        }
+    }
+    return closest
 }
 
