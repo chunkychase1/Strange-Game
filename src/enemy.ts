@@ -63,7 +63,7 @@ export function updateEnemies(){
     }
 }
 
-export function findClosestEnemy(){
+export function findClosestEnemy(): Coordinates | undefined{
     let closest: Coordinates | undefined = undefined //{x: number, y: number}
     let closestIndex: number = 0
     let currentIndex: number = 0
