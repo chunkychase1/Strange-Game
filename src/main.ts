@@ -1,7 +1,7 @@
 import { initCanvas, resizeCanvas, ctx } from './canvas'
 import { spawnHero, initHeroMovement, handleHeroMovement } from './hero-movement'
 import { resetScore, setupScore } from './scoreboard'
-import { handleEnemyMovement, spawnEnemy } from './enemy-movement'
+import { spawnRandomEnemy, updateEnemies } from './enemy'
 import './style.css'
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -23,7 +23,7 @@ initCanvas(canvas)
 const handleResize = () => {
   resizeCanvas()
   spawnHero(window.innerWidth, window.innerHeight)
-  spawnEnemy(window.innerWidth, window.innerHeight)//spawns enemy
+  spawnRandomEnemy()
 }
 
 window.addEventListener('resize', handleResize)
@@ -45,7 +45,7 @@ const loop = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height) //clear canvas
 
   handleHeroMovement()//redraw hero and enemy (with updated places if)
-  handleEnemyMovement()
+  updateEnemies()
 
   requestAnimationFrame(loop)
 }
