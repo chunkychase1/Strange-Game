@@ -3,6 +3,7 @@ import { spawnHero, initHeroMovement, handleHeroMovement } from './hero-movement
 import { resetScore, setupScore } from './scoreboard'
 import { endGame, spawnRandomEnemy, updateEnemies } from './enemy'
 import './style.css'
+import { createBullet, updateBullets } from './bullet'
 
 const app = document.querySelector<HTMLDivElement>('#app')
 if (!app) throw new Error('App root (#app) not found')
@@ -46,6 +47,11 @@ const loop = () => {
 
   handleHeroMovement()//redraw hero and enemy (with updated places if)
   updateEnemies()
+
+  createBullet()
+  updateBullets()
+
+
   if (!endGame) {requestAnimationFrame(loop)}
 }
 requestAnimationFrame(loop)

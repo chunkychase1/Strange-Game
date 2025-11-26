@@ -45,6 +45,7 @@ export class Bullet{
         else if (this.xadd != 0) {this.x += this.xadd}
         this.drawBullet()
         }
+
     }
 
 
@@ -56,8 +57,14 @@ export function createBullet(){
 }    
 
 export function updateBullets(){
+    let tempIndex: number = 0
     for (const bullet of bulletList) {
         bullet.updateBullet()
+        bullet.lifespan -= 1
+        if (bullet.lifespan == 0) {
+            bulletList.splice(tempIndex, tempIndex)
+        }
+        tempIndex += 1
     }
 }
 
