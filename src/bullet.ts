@@ -48,8 +48,16 @@ export class Bullet{
     }
 
 
+const bulletList: Bullet[] = []
+export function createBullet(){
+    const heroPosition: Coordinates = getHeroPosition()
+    const newBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 100)
+    bulletList.push(newBullet)
+}    
 
-const heroPosition: Coordinates = getHeroPosition()
-const testBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 100)
-testBullet.drawBullet()
-testBullet.updateBullet()
+export function updateBullets(){
+    for (const bullet of bulletList) {
+        bullet.updateBullet()
+    }
+}
+
