@@ -46,7 +46,6 @@ const loop = () => {
 
   handleHeroMovement()//redraw hero and enemy (with updated places if)
   updateEnemies()
-  spawnRandomEnemy()
   if (!endGame) {requestAnimationFrame(loop)}
 }
 requestAnimationFrame(loop)
