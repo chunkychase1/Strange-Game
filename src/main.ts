@@ -47,7 +47,7 @@ Chase.initHeroMovement() // spawns hero and starts its movement logic
 
 spawnRandomEnemy()
 
-initBulletControls()
+initBulletControls(canvas)
 
 // ----------------------
 // Scoreboard & Reset UI

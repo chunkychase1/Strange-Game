@@ -1,4 +1,4 @@
-import { ctx, canvas, mouseX, mouseY, type Coordinates } from "../canvas"
+import { ctx, mouseX, mouseY, type Coordinates } from "../canvas"
 import { Chase } from "../main"
 import { Entity } from "./entityClass"
 
@@ -11,6 +11,10 @@ export class Bullet extends Entity {
   xadd: number
   yadd: number
 
+  // previous position for high-speed collision
+  prevX: number
+  prevY: number
+
   constructor(
     x: number,
     y: number,
@@ -22,18 +26,26 @@ export class Bullet extends Entity {
     this.lifespan = lifespan
     this.xadd = 0
     this.yadd = 0
+
+    // start previous position at initial position
+    this.prevX = x
+    this.prevY = y
   }
 
   drawBullet() {
-    if (!ctx || !canvas) return
+    if (!ctx) return
 
-    ctx.fillStyle = "#4814d8ff"
+    ctx.fillStyle = "#ffffffff"
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
     ctx.fill()
   }
 
   updateBullet() {
+    // store previous position BEFORE moving
+    this.prevX = this.x
+    this.prevY = this.y
+
     // move the bullet along its velocity
     this.x += this.xadd
     this.y += this.yadd
@@ -57,7 +69,7 @@ export function createBullet() {
   const length = Math.hypot(dx, dy) || 1 // avoid divide-by-zero
 
   // bullet speed (stepLength)
-  const speed = 8
+  const speed = 50
 
   const newBullet = new Bullet(
     heroPosition.x,
@@ -88,7 +100,7 @@ export function updateBullets() {
   }
 }
 
-export function initBulletControls() {
+export function initBulletControls(canvas: HTMLCanvasElement) {
   canvas.addEventListener("mousedown", (event: MouseEvent) => {
     if (event.button === 0) {
       createBullet()
