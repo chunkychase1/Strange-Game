@@ -27,23 +27,23 @@ if (!canvas) throw new Error('Drawing canvas (#drawing-canvas) missing')
 initCanvas(canvas)
 
 // ----------------------
-// Resize / Enemy Setup
+// Resize
 // ----------------------
 
 const handleResize = () => {
   resizeCanvas()
-  spawnRandomEnemy()
 }
 
 window.addEventListener('resize', handleResize)
 handleResize()
 
 // ----------------------
-// Hero Setup
+// Hero Setup & Enemy Setup
 // ----------------------
 
 export const Chase = new Hero(500, 500, 10, 5)
 Chase.initHeroMovement() // spawns hero and starts its movement logic
+spawnRandomEnemy()
 
 // ----------------------
 // Scoreboard & Reset UI
