@@ -1,9 +1,14 @@
+import './style.css'
+
 import { initCanvas, resizeCanvas, ctx } from './canvas'
 import { Hero } from './entitys/hero'
 import { resetScore, setupScore } from './scoreboard'
 import { endGame, spawnRandomEnemy, updateEnemies } from './entitys/enemy'
-import './style.css'
 import { createBullet, updateBullets } from './entitys/bullet'
+
+// ----------------------
+// DOM & Canvas Setup
+// ----------------------
 
 const app = document.querySelector<HTMLDivElement>('#app')
 if (!app) throw new Error('App root (#app) not found')
@@ -21,6 +26,10 @@ if (!canvas) throw new Error('Drawing canvas (#drawing-canvas) missing')
 
 initCanvas(canvas)
 
+// ----------------------
+// Resize / Enemy Setup
+// ----------------------
+
 const handleResize = () => {
   resizeCanvas()
   spawnRandomEnemy()
@@ -29,30 +38,43 @@ const handleResize = () => {
 window.addEventListener('resize', handleResize)
 handleResize()
 
-export const Chase = new Hero(100, 100, 10, 5)
-Chase.initHeroMovement()//spawns hero and starts its movement logic
+// ----------------------
+// Hero Setup
+// ----------------------
 
-//scoreboard setup
-const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')! 
+export const Chase = new Hero(500, 500, 10, 5)
+Chase.initHeroMovement() // spawns hero and starts its movement logic
+
+// ----------------------
+// Scoreboard & Reset UI
+// ----------------------
+
+const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')!
 setupScore(scoreDiv)
 
-//reset button
 const resetDiv = document.querySelector<HTMLButtonElement>('#reset-button')!
 resetScore(resetDiv)
 
-// game loop, it will clear the canvas and then move both hero and enemy then loop
+// ----------------------
+// Game Loop
+// ----------------------
+
 const loop = () => {
   if (!ctx || !canvas || endGame) return
-  ctx.clearRect(0, 0, canvas.width, canvas.height) //clear canvas
 
-  Chase.handleHeroMovement()//redraw hero and enemy (with updated places if)
+  // clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  // update & draw entities
+  Chase.handleHeroMovement()
   updateEnemies()
 
   createBullet()
   updateBullets()
 
-
-  if (!endGame) {requestAnimationFrame(loop)}
+  if (!endGame) {
+    requestAnimationFrame(loop)
+  }
 }
-requestAnimationFrame(loop)
 
+requestAnimationFrame(loop)
