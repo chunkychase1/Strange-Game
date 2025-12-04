@@ -17,10 +17,11 @@ const keys: Record<string, boolean> = {}
 export function handleHeroMovement() {
 
   //2 keys pressed logic
-  if (keys['w'] && keys['d']){heroPosition.y -= heroStep/2; heroPosition.x += heroStep/2;}
-  else if (keys['w'] && keys['a']){heroPosition.y -= heroStep/2; heroPosition.x -= heroStep/2;}
-  else if (keys['s'] && keys['a']){heroPosition.y += heroStep/2; heroPosition.x -= heroStep/2;}
-  else if (keys['s'] && keys['d']){heroPosition.y += heroStep/2; heroPosition.x += heroStep/2;}
+  const sqrt2 = Math.sqrt(2)
+  if (keys['w'] && keys['d']){heroPosition.y -= heroStep/sqrt2; heroPosition.x += heroStep/sqrt2;}
+  else if (keys['w'] && keys['a']){heroPosition.y -= heroStep/sqrt2; heroPosition.x -= heroStep/sqrt2;}
+  else if (keys['s'] && keys['a']){heroPosition.y += heroStep/sqrt2; heroPosition.x -= heroStep/sqrt2;}
+  else if (keys['s'] && keys['d']){heroPosition.y += heroStep/sqrt2; heroPosition.x += heroStep/sqrt2;}
 
   //1 key pressed logic
   else if (keys['w']) {heroPosition.y -= heroStep;}

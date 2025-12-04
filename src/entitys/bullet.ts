@@ -1,24 +1,20 @@
 import { ctx, canvas, type Coordinates } from "../canvas"
 import { getHeroPosition } from "./hero-movement"
 import { findClosestEnemy } from "./enemy"
+import { Entity } from "./entityClass"
 
-export class Bullet{
-    x: number
-    y: number
-    radius: number
+export class Bullet extends Entity{
     lifespan: number
 
     //how much to move x or y every time
     xadd: number
     yadd: number
 
-    constructor (x: number, y: number, radius: number, lifespan: number){
-    this.x = x
-    this.y = y
-    this.radius = radius
-    this.lifespan = lifespan
-    this.xadd = 0
-    this.yadd = 0
+    constructor (x: number, y: number, radius: number, stepLength: number, lifespan: number){
+        super(x, y, radius, stepLength)
+        this.lifespan = lifespan
+        this.xadd = 0
+        this.yadd = 0
     }
 
     drawBullet() {
@@ -54,7 +50,7 @@ export class Bullet{
 const bulletList: Bullet[] = []
 export function createBullet(){
     const heroPosition: Coordinates = getHeroPosition()
-    const newBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 100)
+    const newBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 0, 100)// 0 is step length must change later, 100 is lifespan
     bulletList.push(newBullet)
 }    
 
