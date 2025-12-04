@@ -87,3 +87,11 @@ export function updateBullets() {
     }
   }
 }
+
+export function initBulletControls() {
+  canvas.addEventListener("mousedown", (event: MouseEvent) => {
+    if (event.button === 0) {
+      createBullet()
+    }
+  })
+}

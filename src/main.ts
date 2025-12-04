@@ -4,7 +4,7 @@ import { initCanvas, resizeCanvas, ctx } from './canvas'
 import { Hero } from './entitys/hero'
 import { resetScore, setupScore } from './scoreboard'
 import { endGame, spawnRandomEnemy, updateEnemies } from './entitys/enemy'
-import { createBullet, updateBullets } from './entitys/bullet'
+import { createBullet, updateBullets, initBulletControls } from './entitys/bullet'
 
 // ----------------------
 // DOM & Canvas Setup
@@ -38,12 +38,15 @@ window.addEventListener('resize', handleResize)
 handleResize()
 
 // ----------------------
-// Hero Setup & Enemy Setup
+// Hero Setup, Enemy Setup, & Bullet Setup
 // ----------------------
 
 export const Chase = new Hero(500, 500, 10, 5)
 Chase.initHeroMovement() // spawns hero and starts its movement logic
+
 spawnRandomEnemy()
+
+initBulletControls()
 
 // ----------------------
 // Scoreboard & Reset UI
@@ -69,7 +72,6 @@ const loop = () => {
   Chase.handleHeroMovement()
   updateEnemies()
 
-  createBullet()
   updateBullets()
 
   if (!endGame) {
