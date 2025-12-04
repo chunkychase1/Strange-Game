@@ -1,12 +1,11 @@
-import { ctx, canvas, type Coordinates } from "../canvas"
+import { ctx, canvas, mouseX, mouseY, type Coordinates } from "../canvas"
 import { Chase } from "../main"
-import { findClosestEnemy } from "./enemy"
 import { Entity } from "./entityClass"
 
 export class Bullet extends Entity {
   lifespan: number
 
-  // how much to move x or y every time
+  // how much to move x or y every frame
   xadd: number
   yadd: number
 
@@ -14,7 +13,7 @@ export class Bullet extends Entity {
     x: number,
     y: number,
     radius: number,
-    stepLength: number,
+    stepLength: number, // this is the bullet speed
     lifespan: number
   ) {
     super(x, y, radius, stepLength)
@@ -33,37 +32,9 @@ export class Bullet extends Entity {
   }
 
   updateBullet() {
-    // setup first shot direction, editing xadd and yadd
-    if (this.yadd == 0 && this.xadd == 0) {
-      const closestEnemyCoordinates: Coordinates = findClosestEnemy() as Coordinates
-
-      const yDifference: number = Math.abs(closestEnemyCoordinates.y - this.y)
-      const xDifference: number = Math.abs(closestEnemyCoordinates.x - this.x)
-
-      // setup xadd and yadd
-      if (xDifference > yDifference && closestEnemyCoordinates.x - this.x > 0) {
-        this.xadd = 1
-      } else if (
-        xDifference > yDifference &&
-        closestEnemyCoordinates.x - this.x < 0
-      ) {
-        this.xadd = -1
-      } else if (
-        yDifference > xDifference &&
-        closestEnemyCoordinates.y - this.y > 0
-      ) {
-        this.yadd = 1
-      } else if (
-        yDifference > xDifference &&
-        closestEnemyCoordinates.y - this.y < 0
-      ) {
-        this.yadd = -1
-      }
-    } else if (this.yadd != 0) {
-      this.y += this.yadd
-    } else if (this.xadd != 0) {
-      this.x += this.xadd
-    }
+    // move the bullet along its velocity
+    this.x += this.xadd
+    this.y += this.yadd
 
     this.drawBullet()
   }
@@ -77,22 +48,42 @@ const bulletList: Bullet[] = []
 
 export function createBullet() {
   const heroPosition: Coordinates = { x: Chase.x, y: Chase.y }
-  // 0 is step length (must change later), 100 is lifespan
-  const newBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 0, 100)
+
+  // direction from hero -> mouse
+  const dx = mouseX - heroPosition.x
+  const dy = mouseY - heroPosition.y
+
+  // distance (hypotenuse)
+  const length = Math.hypot(dx, dy) || 1 // avoid divide-by-zero
+
+  // bullet speed (stepLength)
+  const speed = 8
+
+  const newBullet = new Bullet(
+    heroPosition.x,
+    heroPosition.y,
+    2,        // radius
+    speed,    // stepLength = speed
+    100       // lifespan
+  )
+
+  // normalize (dx, dy) and scale by speed → per-frame movement
+  newBullet.xadd = (dx / length) * newBullet.stepLength
+  newBullet.yadd = (dy / length) * newBullet.stepLength
+
   bulletList.push(newBullet)
 }
 
 export function updateBullets() {
-  let tempIndex: number = 0
+  // iterate backwards so splicing works safely
+  for (let i = bulletList.length - 1; i >= 0; i--) {
+    const bullet = bulletList[i]
 
-  for (const bullet of bulletList) {
     bullet.updateBullet()
     bullet.lifespan -= 1
 
-    if (bullet.lifespan == 0) {
-      bulletList.splice(tempIndex, tempIndex)
+    if (bullet.lifespan <= 0) {
+      bulletList.splice(i, 1)
     }
-
-    tempIndex += 1
   }
 }
