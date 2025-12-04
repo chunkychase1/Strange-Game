@@ -1,5 +1,5 @@
 import { ctx, canvas, type Coordinates } from "../canvas"
-import { getHeroPosition } from "./hero-movement"
+import { Chase } from "../main"
 import { findClosestEnemy } from "./enemy"
 import { Entity } from "./entityClass"
 
@@ -49,7 +49,7 @@ export class Bullet extends Entity{
 
 const bulletList: Bullet[] = []
 export function createBullet(){
-    const heroPosition: Coordinates = getHeroPosition()
+    const heroPosition: Coordinates = {x: Chase.x, y: Chase.y}
     const newBullet = new Bullet(heroPosition.x, heroPosition.y, 2, 0, 100)// 0 is step length must change later, 100 is lifespan
     bulletList.push(newBullet)
 }    

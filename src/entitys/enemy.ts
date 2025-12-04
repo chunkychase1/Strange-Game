@@ -1,5 +1,5 @@
 import { ctx, canvas, type Coordinates} from "../canvas"
-import { getHeroPosition } from "./hero-movement"
+import { Chase } from "../main"
 import { Entity } from "./entityClass"
 
 const globalEnemiesList: Enemy[] = []//list of all alive enemys
@@ -19,7 +19,7 @@ export class Enemy extends Entity{
     handleEnemyMovement() {
         if (!this.touching) {
 
-            const heroPosition = getHeroPosition()
+            const heroPosition = {x: Chase.x, y: Chase.y}
 
             const distanceX = heroPosition.x - this.x
             const distanceY = heroPosition.y - this.y
@@ -64,7 +64,7 @@ export function findClosestEnemy(): Coordinates | undefined{
         closestTotal = absoluteDifferenceXY
     }
 
-    const heroPosition = getHeroPosition()
+    const heroPosition = {x: Chase.x, y: Chase.y}
     for (const enemy of globalEnemiesList){
 
         const absoluteDifferenceXY: number = Math.abs(heroPosition.x-enemy.x)+Math.abs(heroPosition.y-enemy.y)

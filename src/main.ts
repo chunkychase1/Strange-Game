@@ -1,5 +1,5 @@
 import { initCanvas, resizeCanvas, ctx } from './canvas'
-import { spawnHero, initHeroMovement, handleHeroMovement } from './entitys/hero-movement'
+import { Hero } from './entitys/hero'
 import { resetScore, setupScore } from './scoreboard'
 import { endGame, spawnRandomEnemy, updateEnemies } from './entitys/enemy'
 import './style.css'
@@ -23,13 +23,14 @@ initCanvas(canvas)
 
 const handleResize = () => {
   resizeCanvas()
-  spawnHero(window.innerWidth, window.innerHeight)
   spawnRandomEnemy()
 }
 
 window.addEventListener('resize', handleResize)
 handleResize()
-initHeroMovement()//spawns hero and starts its movement logic
+
+export const Chase = new Hero(100, 100, 10, 5)
+Chase.initHeroMovement()//spawns hero and starts its movement logic
 
 //scoreboard setup
 const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')! 
@@ -41,10 +42,10 @@ resetScore(resetDiv)
 
 // game loop, it will clear the canvas and then move both hero and enemy then loop
 const loop = () => {
-  if (!ctx || !canvas && !endGame) return
+  if (!ctx || !canvas || endGame) return
   ctx.clearRect(0, 0, canvas.width, canvas.height) //clear canvas
 
-  handleHeroMovement()//redraw hero and enemy (with updated places if)
+  Chase.handleHeroMovement()//redraw hero and enemy (with updated places if)
   updateEnemies()
 
   createBullet()
