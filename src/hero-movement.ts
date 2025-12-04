@@ -14,13 +14,20 @@ export const spawnHero = (width: number, height: number) => {
 
 const keys: Record<string, boolean> = {}
 
-// move based on currently held keys
+// move based on currently held keys each loop
 export function handleHeroMovement() {
   let heroMoved = false
-  if (keys['w']) {heroPosition.y -= heroStep; heroMoved = true}
-  if (keys['a']) {heroPosition.x -= heroStep; heroMoved = true}
-  if (keys['s']) {heroPosition.y += heroStep; heroMoved = true}
-  if (keys['d']) {heroPosition.x += heroStep; heroMoved = true}
+  //2 keys pressed logic
+  if (keys['w'] && keys['d']){heroPosition.y += heroStep/2; heroPosition.x += heroStep/2; heroMoved = true}
+  else if (keys['w'] && keys['a']){heroPosition.y += heroStep/2; heroPosition.x -= heroStep/2; heroMoved = true}
+  else if (keys['s'] && keys['a']){heroPosition.y -= heroStep/2; heroPosition.x -= heroStep/2; heroMoved = true}
+  else if (keys['s'] && keys['d']){heroPosition.y -= heroStep/2; heroPosition.x += heroStep/2; heroMoved = true}
+
+  //1 key pressed logic
+  else if (keys['w']) {heroPosition.y -= heroStep; heroMoved = true}
+  else if (keys['a']) {heroPosition.x -= heroStep; heroMoved = true}
+  else if (keys['s']) {heroPosition.y += heroStep; heroMoved = true}
+  else if (keys['d']) {heroPosition.x += heroStep; heroMoved = true}
   if (heroMoved) {
     addScore(1)
   }
