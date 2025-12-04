@@ -1,6 +1,5 @@
-import type { Coordinates } from './canvas'
+import type { Coordinates } from '../canvas'
 import { drawHero } from './hero'
-import { addScore } from './scoreboard'
 
 const heroStep = 5
 const heroPosition: Coordinates = { x: 0, y: 0 }
@@ -16,21 +15,20 @@ const keys: Record<string, boolean> = {}
 
 // move based on currently held keys each loop
 export function handleHeroMovement() {
-  let heroMoved = false
+
   //2 keys pressed logic
-  if (keys['w'] && keys['d']){heroPosition.y -= heroStep/2; heroPosition.x += heroStep/2; heroMoved = true}
-  else if (keys['w'] && keys['a']){heroPosition.y -= heroStep/2; heroPosition.x -= heroStep/2; heroMoved = true}
-  else if (keys['s'] && keys['a']){heroPosition.y += heroStep/2; heroPosition.x -= heroStep/2; heroMoved = true}
-  else if (keys['s'] && keys['d']){heroPosition.y += heroStep/2; heroPosition.x += heroStep/2; heroMoved = true}
+  if (keys['w'] && keys['d']){heroPosition.y -= heroStep/2; heroPosition.x += heroStep/2;}
+  else if (keys['w'] && keys['a']){heroPosition.y -= heroStep/2; heroPosition.x -= heroStep/2;}
+  else if (keys['s'] && keys['a']){heroPosition.y += heroStep/2; heroPosition.x -= heroStep/2;}
+  else if (keys['s'] && keys['d']){heroPosition.y += heroStep/2; heroPosition.x += heroStep/2;}
 
   //1 key pressed logic
-  else if (keys['w']) {heroPosition.y -= heroStep; heroMoved = true}
-  else if (keys['a']) {heroPosition.x -= heroStep; heroMoved = true}
-  else if (keys['s']) {heroPosition.y += heroStep; heroMoved = true}
-  else if (keys['d']) {heroPosition.x += heroStep; heroMoved = true}
-  if (heroMoved) {
-    addScore(1)
-  }
+  else if (keys['w']) {heroPosition.y -= heroStep;}
+  else if (keys['a']) {heroPosition.x -= heroStep;}
+  else if (keys['s']) {heroPosition.y += heroStep;}
+  else if (keys['d']) {heroPosition.x += heroStep;}
+
+  //draw hero in updated spot
   drawHero(heroPosition)
 }
 
@@ -43,7 +41,6 @@ export const initHeroMovement = () => {
   window.addEventListener('keyup', (event: KeyboardEvent) => {
     keys[event.key.toLowerCase()] = false
   })
-
 }
 
 //gets hero position

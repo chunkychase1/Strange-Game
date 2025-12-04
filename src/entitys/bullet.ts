@@ -1,4 +1,4 @@
-import { ctx, canvas, type Coordinates } from "./canvas"
+import { ctx, canvas, type Coordinates } from "../canvas"
 import { getHeroPosition } from "./hero-movement"
 import { findClosestEnemy } from "./enemy"
 
@@ -7,7 +7,9 @@ export class Bullet{
     y: number
     radius: number
     lifespan: number
-    xadd: number//how much to move x or y every time
+
+    //how much to move x or y every time
+    xadd: number
     yadd: number
 
     constructor (x: number, y: number, radius: number, lifespan: number){

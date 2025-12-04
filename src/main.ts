@@ -1,9 +1,9 @@
 import { initCanvas, resizeCanvas, ctx } from './canvas'
-import { spawnHero, initHeroMovement, handleHeroMovement } from './hero-movement'
+import { spawnHero, initHeroMovement, handleHeroMovement } from './entitys/hero-movement'
 import { resetScore, setupScore } from './scoreboard'
-import { endGame, spawnRandomEnemy, updateEnemies } from './enemy'
+import { endGame, spawnRandomEnemy, updateEnemies } from './entitys/enemy'
 import './style.css'
-import { createBullet, updateBullets } from './bullet'
+import { createBullet, updateBullets } from './entitys/bullet'
 
 const app = document.querySelector<HTMLDivElement>('#app')
 if (!app) throw new Error('App root (#app) not found')
@@ -30,7 +30,6 @@ const handleResize = () => {
 window.addEventListener('resize', handleResize)
 handleResize()
 initHeroMovement()//spawns hero and starts its movement logic
-
 
 //scoreboard setup
 const scoreDiv = document.querySelector<HTMLDivElement>('#scoreboard')! 

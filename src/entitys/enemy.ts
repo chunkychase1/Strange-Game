@@ -1,26 +1,15 @@
-import { ctx, canvas, type Coordinates} from "./canvas"
+import { ctx, canvas, type Coordinates} from "../canvas"
 import { getHeroPosition } from "./hero-movement"
+import { Entity } from "./entityClass"
 
 const globalEnemiesList: Enemy[] = []//list of all alive enemys
 export let endGame = false
 
-export class Enemy{
-    x: number
-    y: number
-    radius: number
-    stepLength: number
+export class Enemy extends Entity{
     touching = false
-
-    constructor(x: number, y: number, radius: number, stepLength: number) {
-        this.x = x
-        this.y = y
-        this.radius = radius
-        this.stepLength = stepLength
-    }
 
     drawEnemy() {
         if (!ctx || !canvas) return
-
         ctx.fillStyle = '#d81414ff'
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)

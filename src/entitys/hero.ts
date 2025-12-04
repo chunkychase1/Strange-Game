@@ -1,4 +1,4 @@
-import { ctx, canvas, radius, type Coordinates} from "./canvas"
+import { ctx, canvas, radius, type Coordinates} from "../canvas"
 
 export const drawHero = (position: Coordinates) => {
   if (!ctx || !canvas) return
