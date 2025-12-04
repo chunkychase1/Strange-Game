@@ -4,7 +4,8 @@ import { initCanvas, resizeCanvas, ctx } from './canvas'
 import { Hero } from './entitys/hero'
 import { resetScore, setupScore } from './scoreboard'
 import { endGame, spawnRandomEnemy, updateEnemies } from './entitys/enemy'
-import { createBullet, updateBullets, initBulletControls } from './entitys/bullet'
+import { updateBullets, initBulletControls } from './entitys/bullet'
+import { handleBulletEnemyCollisions } from './entitys/collisions'
 
 // ----------------------
 // DOM & Canvas Setup
@@ -74,6 +75,7 @@ const loop = () => {
 
   updateBullets()
 
+  handleBulletEnemyCollisions()
   if (!endGame) {
     requestAnimationFrame(loop)
   }

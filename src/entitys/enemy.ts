@@ -3,7 +3,7 @@ import { Chase } from "../main"
 import { Entity } from "./entityClass"
 
 // list of all alive enemies
-const globalEnemiesList: Enemy[] = []
+export const globalEnemiesList: Enemy[] = []
 
 export let endGame = false
 

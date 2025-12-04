@@ -2,6 +2,8 @@ import { ctx, canvas, mouseX, mouseY, type Coordinates } from "../canvas"
 import { Chase } from "../main"
 import { Entity } from "./entityClass"
 
+export const globalBulletList: Bullet[] = []
+
 export class Bullet extends Entity {
   lifespan: number
 
@@ -44,8 +46,6 @@ export class Bullet extends Entity {
 // Bullet list & helpers
 // ----------------------
 
-const bulletList: Bullet[] = []
-
 export function createBullet() {
   const heroPosition: Coordinates = { x: Chase.x, y: Chase.y }
 
@@ -71,19 +71,19 @@ export function createBullet() {
   newBullet.xadd = (dx / length) * newBullet.stepLength
   newBullet.yadd = (dy / length) * newBullet.stepLength
 
-  bulletList.push(newBullet)
+  globalBulletList.push(newBullet)
 }
 
 export function updateBullets() {
   // iterate backwards so splicing works safely
-  for (let i = bulletList.length - 1; i >= 0; i--) {
-    const bullet = bulletList[i]
+  for (let i = globalBulletList.length - 1; i >= 0; i--) {
+    const bullet = globalBulletList[i]
 
     bullet.updateBullet()
     bullet.lifespan -= 1
 
     if (bullet.lifespan <= 0) {
-      bulletList.splice(i, 1)
+      globalBulletList.splice(i, 1)
     }
   }
 }
